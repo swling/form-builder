@@ -97,9 +97,8 @@ For displaying the form, add this to your view:
 If you are setting up a custom hive key, you have to provide that key instead.
 
 Result:
-<img src="https://imgur.com/a/2NU6WTW" alt="Image" />
+![Test](https://imgur.com/a/2NU6WTW)
 
-# References
 [1]: https://bulma.io
 [2]: https://github.com/Wikiki/bulma-extensions
 [3]: https://fatfreeframework.com/3.6/framework-variables#ConfigurationFiles

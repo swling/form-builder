@@ -97,7 +97,7 @@ For displaying the form, add this to your view:
 If you are setting up a custom hive key, you have to provide that key instead.
 
 Result:
-![Result](https://imgur.com/a/2NU6WTW)
+<img src="https://imgur.com/a/2NU6WTW" alt="Image" />
 
 # References
 [1]: https://bulma.io

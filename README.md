@@ -76,12 +76,12 @@ Furthermore, you can specify more details:
 function register()
 {
     $form = new Form();
-    $form->addTextWithLabel('gebruikersnaam', 'Gebruikersnaam', 'Gebruikersnaam', NULL, false);
-    $form->addTextWithLabel('voornaam', 'Voornaam', 'Voornaam', NULL, false);
-    $form->addTextWithLabel('achternaam', 'Achternaam', 'Achternaam', NULL, false);
-    $form->addEmailWithLabel('email', 'E-mailadres', 'E-mailadres', NULL, false);
-    $form->addPasswordWithLabel('password', '***********', 'Wachtwoord', NULL, false);
-    $form->addPasswordWithLabel('password-check', '***********', 'Wachtwoord (bevestigen)', NULL, false);
+    $form->addTextWithLabel('username', 'Username', 'Username', NULL, false);
+    $form->addTextWithLabel('firstname', 'First name', 'First name', NULL, false);
+    $form->addTextWithLabel('lastname', 'Last name', 'Last name', NULL, false);
+    $form->addEmailWithLabel('email', 'E-mail', 'E-mail', NULL, false);
+    $form->addPasswordWithLabel('password', '***********', 'Password', NULL, false);
+    $form->addPasswordWithLabel('password-check', '***********', 'Password (check)', NULL, false);
     $form->addAction('POST', $this->f3->get('BASE') . "/register/create");
     $form->addSubmitButton($this->f3->get('messages.general.system.signup'), 'is-info');
     $form->addRecaptcha();

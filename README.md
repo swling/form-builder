@@ -61,15 +61,13 @@ Because the form builder is a [Prefab class][5], you can instantiate if everywhe
 - addRadioButton
 - addCheckbox
 - addSwitch
-- addTinyMCE (you have to install TinyMCE yourself)
-![Result](https://imgur.com/a/MBeOUl5)
+- addTinyMCE (you have to install TinyMCE yourself, see https://imgur.com/a/MBeOUl5)
 - addSubmitButton
 - addImageUpload
 - addRecaptcha (you have to install ReCAPTCHA yourself)
 
 Furthermore, you can specify more details:
-- setIsHorizontal (whether the form is horizontal, so you can use it in a navbar, for instance)
-![Result](https://imgur.com/a/t3Hmu9h)
+- setIsHorizontal (whether the form is horizontal, so you can use it in a navbar, for instance. See https://imgur.com/a/t3Hmu9h)
 - setCustomHiveKey (default the hive key of the form is FORM, but you can adjust this with this setter)
 - setSize (adjust the size of the submit button. For example, 'is-small' or 'is-large', according to a Bulma tag)
 
@@ -96,8 +94,7 @@ For displaying the form, add this to your view:
 ```
 If you are setting up a custom hive key, you have to provide that key instead.
 
-Result:
-![Test](https://imgur.com/a/2NU6WTW)
+Result: https://imgur.com/a/2NU6WTW
 
 [1]: https://bulma.io
 [2]: https://github.com/Wikiki/bulma-extensions

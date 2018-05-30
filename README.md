@@ -1,6 +1,6 @@
 # Dynamic Bulma form builder for the Fatfree framework
 Due to the lack of a proper form builder for the Fatfree framework, I created my own builder. Thanks to 
-Bulma css framework compatibility, this piece of code is a modern and reliable choice for people who want to generate forms fast.
+Bulma css framework compatibility, this piece of code is a modern and reliable choice in terms of styling for people who want to generate forms fast.
 
 The form builder is provided as single class and 'as is'. However, if you observe the code, it should be not that difficult to extend the builder
 with your own elements.

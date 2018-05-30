@@ -11,7 +11,7 @@ The form builder supports all default actions and, after some minor configuratio
 First, you need to install [Bulma][1] and [Bulma Extensions][2] properly. For this, read their documentation. Albeit you can install both assets manually, it is strongly advised to use NPM. However, how you implement
 the stylesheets into your project and whether you want to use *vanilla css* or SASS, is completely up to you. For the sake of personal preferences :)
 
-Next, install TinyMCE. This is optinally, but required if you want to use the TinyMCE option in the builder. See the [TinyMCE][6] documentation in order to install it. Moreover, if you want to use [ReCAPTCHA][7]v2 in this form, you have to install this as well. Please note that, in order to use recaptcha, you have to specify the global Fatfree hive key RECAPTCHA_SITE_KEY.
+Next, install TinyMCE. This is optinally, but required if you want to use the TinyMCE option in the builder. See the [TinyMCE][5] documentation in order to install it. Moreover, if you want to use [ReCAPTCHA][6]v2 in this form, you have to install this as well. Please note that, in order to use recaptcha, you have to specify the global Fatfree hive key RECAPTCHA_SITE_KEY.
 
 Subsequently, you have to set up the form configuration file. Make sure you load this file with Fatfree initially, so before serving your application
 to visitors. See the [Fatfree documentation][3] for details. 
@@ -48,7 +48,7 @@ private function verifyCsrfAttack() {
 - submit_label_default: the default submit button label.
 
 # How to use it
-Because the form builder is a [Prefab class][5], you can instantiate if everywhere in your application. There are various form elements that this builder supports, namely:
+There are various form elements that this builder supports, namely:
 
 - addText
 - addTextWithLabel
@@ -75,16 +75,17 @@ Furthermore, you can specify more details:
 ```
 function register()
 {
-    Form::instance()->addTextWithLabel('gebruikersnaam', 'Gebruikersnaam', 'Gebruikersnaam', NULL, false)
-        ->addTextWithLabel('voornaam', 'Voornaam', 'Voornaam', NULL, false)
-        ->addTextWithLabel('achternaam', 'Achternaam', 'Achternaam', NULL, false)
-        ->addEmailWithLabel('email', 'E-mailadres', 'E-mailadres', NULL, false)
-        ->addPasswordWithLabel('password', '***********', 'Wachtwoord', NULL, false)
-        ->addPasswordWithLabel('password-check', '***********', 'Wachtwoord (bevestigen)', NULL, false)
-        ->addAction('POST', $this->f3->get('BASE') . "/register/create")
-        ->addSubmitButton($this->f3->get('messages.general.system.signup'), 'is-info')
-        ->addRecaptcha()
-        ->build();
+    $form = new Form();
+    $form->addTextWithLabel('gebruikersnaam', 'Gebruikersnaam', 'Gebruikersnaam', NULL, false);
+    $form->addTextWithLabel('voornaam', 'Voornaam', 'Voornaam', NULL, false);
+    $form->addTextWithLabel('achternaam', 'Achternaam', 'Achternaam', NULL, false);
+    $form->addEmailWithLabel('email', 'E-mailadres', 'E-mailadres', NULL, false);
+    $form->addPasswordWithLabel('password', '***********', 'Wachtwoord', NULL, false);
+    $form->addPasswordWithLabel('password-check', '***********', 'Wachtwoord (bevestigen)', NULL, false);
+    $form->addAction('POST', $this->f3->get('BASE') . "/register/create");
+    $form->addSubmitButton($this->f3->get('messages.general.system.signup'), 'is-info');
+    $form->addRecaptcha();
+    $form->build();
 }
 ```
 
@@ -100,6 +101,5 @@ Result: https://imgur.com/a/2NU6WTW
 [2]: https://github.com/Wikiki/bulma-extensions
 [3]: https://fatfreeframework.com/3.6/framework-variables#ConfigurationFiles
 [4]: https://bulma.io/documentation/elements/tag/
-[5]: https://fatfreeframework.com/3.6/prefab-registry
-[6]: https://www.tinymce.com
-[7]: https://developers.google.com/recaptcha/docs/display
+[5]: https://www.tinymce.com
+[6]: https://developers.google.com/recaptcha/docs/display

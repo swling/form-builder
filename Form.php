@@ -3,7 +3,7 @@
 /**
  * Class for creating dynamic Bulma forms.
  */
-class Form extends \Prefab {
+class Form {
 
     private $inputValues = array();
 

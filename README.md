@@ -11,7 +11,7 @@ The form builder supports all default actions and, after some minor configuratio
 First, you need to install [Bulma][1] and [Bulma Extensions][2] properly. For this, read their documentation. Albeit you can install both assets manually, it is strongly advised to use NPM, but how you implement
 the stylesheets and whether you want to use *vanilla css* or SASS, is completely up to you - for the sake of personal preferences :)
 
-Next, install TinyMCE. This is optinally, but required if you want to use the TinyMCE option in the builder. See the [TinyMCE][5] documentation in order to install it. Moreover, if you want to use [ReCAPTCHA][6]v2 in this form, you have to install this as well. Please note that, in order to use recaptcha, you have to specify the global Fatfree hive key RECAPTCHA_SITE_KEY.
+Next, install TinyMCE. This is optinally, but required if you want to use the TinyMCE option in the builder. See the [TinyMCE][5] documentation in order to install it. Moreover, if you want to use [ReCAPTCHA][6]v2, you have to install this as well. Please note that, in order to use ReCAPTCHA, you have to specify the global Fatfree hive key RECAPTCHA_SITE_KEY.
 
 Subsequently, you have to set up the form configuration file. Make sure you load this file with Fatfree initially, so before serving your application
 to visitors. See the [Fatfree documentation][3] for details. 

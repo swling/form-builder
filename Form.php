@@ -299,11 +299,7 @@ class Form {
         foreach($this->inputValues as $inputValue) {
             switch($inputValue['type']) {
                 case 'text':
-                    $html .= $this->buildDefaultInput($inputValue);
-                    continue;
                 case 'email':
-                    $html .= $this->buildDefaultInput($inputValue);
-                    continue;
                 case 'password':
                     $html .= $this->buildDefaultInput($inputValue);
                     continue;

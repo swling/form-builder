@@ -79,6 +79,29 @@ There are various form elements that this builder supports, namely:
 - addImageUpload
 - addRecaptcha (you have to install ReCAPTCHA yourself)
 
+To validate the ReCAPTCHA, you can add something like this to your controller:
+```
+/**
+ * Validates a possible recaptcha value.
+ */
+protected function hasValidRecaptcha() {
+	if($this->f3->VERB=='POST') {
+		$response = $this->f3->get('POST.g-recaptcha-response');
+		if($response !== NULL) {
+			$url = 'https://www.google.com/recaptcha/api/siteverify';
+			$secret = $this->f3->get('RECAPTCHA_SECRET_KEY');
+			$request = $url . '?secret=' . $secret .'&response=' . $response;
+			$recaptchaResponse = json_decode(file_get_contents($request));
+			if($recaptchaResponse->success) {
+				// Is valid, do something
+				return;
+			}
+			// Is invalid, do something
+		}
+	}
+}
+```
+
 Furthermore, you can specify more details:
 - setIsHorizontal (whether the form is horizontal, so you can use it in a navbar, for instance. See https://imgur.com/a/t3Hmu9h)
 - setCustomHiveKey (default the hive key of the form is FORM, but you can adjust this with this setter)

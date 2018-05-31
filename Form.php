@@ -487,7 +487,7 @@ class Form {
     }
 
     private function getDisabled($inputValue) {
-        $isDisabled = $inputValue[6];
+        $isDisabled = $inputValue['disabled'];
         if($isDisabled) {
             return 'disabled';
         }

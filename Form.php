@@ -479,7 +479,7 @@ class Form {
     }
 
     private function getValue($inputValue) {
-        $value = $inputValue[5];
+        $value = $inputValue['value'];
         if(empty($value)) {
             return '';
         }

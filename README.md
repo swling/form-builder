@@ -43,23 +43,18 @@ private function verifyCsrfAttack() {
     }
 }
 ```
-Or, if preferred, [at router level][7]:
+Or, if preferred, [at router level][7] (example by Ysguy, little bit customized):
 ```
 // ----  Controller ---
 $f3->route('POST|GET /controller/@controller/@action',
-	function($f3) 
-		{
-		if ($f3->get('POST.token') == $f3->get('SESSION.csrf') || $f3->get('GET.token') == $f3->get('SESSION.csrf'))
-			{
+	function($f3) {
+		if ($f3->get('POST.token') == $f3->get('SESSION.csrf') || $f3->get('GET.token') == $f3->get('SESSION.csrf')) {
 			$f3->set('action',explode('&', $f3->get('PARAMS.action'))[0]);
 			echo View::instance()->render('controller/controller_'.$f3->get("PARAMS.controller").'.php'); 
-			}
-			else
-			{ 
-			die("Suspicious Activity Detected!"); 
-			}
-		}
-	);
+			return;
+		} 
+		die("Suspicious Activity Detected!"); 
+);
 ```
 - image_size_max: the max file size in bytes. See http://php.net/manual/en/features.file-upload.post-method.php;
 - submit_button_size: the default size for a submit button. This corresponds to the [Bulma size tag][4];

@@ -27,7 +27,7 @@ submit_label_default = OK
 ```
 
 - csrf_protection: used to add the hidden csrf input field to the form. Caution: the form builder does not provide any csrf implementation whatsoever. However,
-you can implement it yourself. See https://fatfreeframework.com/3.6/session. You might want to add something like this to your beforeroute method:
+you can implement it yourself. See https://fatfreeframework.com/3.6/session. You might want to add something like this to your beforeroute method in your controller:
 ```
 /**
  * Handles any csrf attack attempt. Will log off directly if one
@@ -42,6 +42,20 @@ private function verifyCsrfAttack() {
         }
     }
 }
+```
+Or, if preferred, [at router level][7]:
+```
+// ----  Controller ---
+$f3->route('POST|GET /controller/@controller/@action',
+	function($f3) {
+		if ($f3->get('POST.token') == $f3->get('SESSION.csrf') || $f3->get('GET.token') == $f3->get('SESSION.csrf')) {
+			$f3->set('action',explode('&', $f3->get('PARAMS.action'))[0]);
+			echo View::instance()->render('controller/controller_'.$f3->get("PARAMS.controller").'.php'); 
+		} else { 
+            die("Suspicious Activity Detected!"); 
+		}
+	}
+);
 ```
 - image_size_max: the max file size in bytes. See http://php.net/manual/en/features.file-upload.post-method.php;
 - submit_button_size: the default size for a submit button. This corresponds to the [Bulma size tag][4];
@@ -103,3 +117,4 @@ Result: https://imgur.com/a/2NU6WTW
 [4]: https://bulma.io/documentation/elements/tag/
 [5]: https://www.tinymce.com
 [6]: https://developers.google.com/recaptcha/docs/display
+[7]: https://groups.google.com/forum/#!topic/f3-framework/p7eYR4GcjUA

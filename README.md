@@ -54,6 +54,7 @@ $f3->route('POST|GET /controller/@controller/@action',
 			return;
 		} 
 		die("Suspicious Activity Detected!"); 
+	}
 );
 ```
 - image_size_max: the max file size in bytes. See http://php.net/manual/en/features.file-upload.post-method.php;

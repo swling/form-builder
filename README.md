@@ -45,7 +45,6 @@ private function verifyCsrfAttack() {
 ```
 Or, if preferred, [at router level][7] (example by Ysguy, little bit customized):
 ```
-// ----  Controller ---
 $f3->route('POST|GET /controller/@controller/@action',
 	function($f3) {
 		if ($f3->get('POST.token') == $f3->get('SESSION.csrf') || $f3->get('GET.token') == $f3->get('SESSION.csrf')) {

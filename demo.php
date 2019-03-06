@@ -19,10 +19,10 @@ if(!empty($_POST)){
 
 require "class-form.php";
 
-$form = new Wnd_form();
+$form = new Wnd_Form();
 
 // input
-$form->addText(
+$form->add_text(
 	array(
 		'name' => 'user_name',
 		'value' => '',
@@ -35,7 +35,7 @@ $form->addText(
 );
 
 // input
-$form->addEmail(
+$form->add_email(
 	array(
 		'name' => 'email',
 		'value' => '',
@@ -48,7 +48,7 @@ $form->addEmail(
 );
 
 // password
-$form->addPassword(
+$form->add_password(
 	array(
 		'name' => 'password',
 		'value' => '',
@@ -61,10 +61,10 @@ $form->addPassword(
 );
 
 // html
-$form->addHtml('<div class="field is-horizontal"><div class="field-body">');
+$form->add_html('<div class="field is-horizontal"><div class="field-body">');
 
 // radio
-$form->addRadio(
+$form->add_Radio(
 	array(
 		'name' => 'radio',
 		'value' => array('key1' => 'value1', 'key2' => 'value2'),
@@ -74,10 +74,10 @@ $form->addRadio(
 	)
 );
 
-$form->addHtml('</div></div>');
+$form->add_html('</div></div>');
 
 // dropdown
-$form->addDropdown(
+$form->add_dropdown(
 	array(
 		'name' => 'dropdown',
 		'options' => array('select1' => 'value1', 'select2' => 'value2'),
@@ -88,7 +88,7 @@ $form->addDropdown(
 );
 
 // checkbox
-$form->addCheckbox(
+$form->add_checkbox(
 	array(
 
 		'name' => 'checkbox',
@@ -99,7 +99,7 @@ $form->addCheckbox(
 );
 
 // textarea
-$form->addTextarea(
+$form->add_textarea(
 	array(
 		'name' => 'content',
 		'label' => 'content',
@@ -108,9 +108,9 @@ $form->addTextarea(
 	)
 );
 
-$form->addAction('POST', '');
-$form->setFormAttr('id="my-form-id"');
-$form->addSubmitButton('Submit', 'is-primary');
+$form->add_action('POST', '');
+$form->set_form_attr('id="my-form-id"');
+$form->add_submit_button('Submit', 'is-primary');
 
 $form->build();
 

@@ -3,15 +3,15 @@
 /**
  * Class for creating dynamic Bulma forms.
  */
-class Wnd_form {
+class Wnd_Form {
 
-	private $formAttr;
+	private $form_attr;
 
-	private $inputValues = array();
+	private $input_values = array();
 
 	private $submit;
 
-	private $submitStyle;
+	private $submit_style;
 
 	private $action;
 
@@ -42,12 +42,12 @@ class Wnd_form {
 		$this->$var = $val;
 	}
 
-	// Text
-	function addText($args = array()) {
+	// _text
+	function add_text($args = array()) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => 'text',
 			'name' => $args['name'],
 			'placeholder' => $args['placeholder'],
@@ -60,12 +60,12 @@ class Wnd_form {
 		));
 	}
 
-	// Text
-	function addTextarea($args = array()) {
+	// _text
+	function add_textarea($args = array()) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => 'textarea',
 			'name' => $args['name'],
 			'placeholder' => $args['placeholder'],
@@ -76,11 +76,11 @@ class Wnd_form {
 		));
 	}
 
-	function addEmail($args = array()) {
+	function add_email($args = array()) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => 'email',
 			'name' => $args['name'],
 			'placeholder' => $args['placeholder'],
@@ -93,12 +93,12 @@ class Wnd_form {
 		));
 	}
 
-	// Password
-	function addPassword($args = array()) {
+	// _password
+	function add_password($args = array()) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => "password",
 			'name' => $args['name'],
 			'placeholder' => $args['placeholder'],
@@ -111,12 +111,12 @@ class Wnd_form {
 		));
 	}
 
-	// Dropdown
-	function addDropdown($args = array()) {
+	// _dropdown
+	function add_dropdown($args = array()) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => "dropdown",
 			'name' => $args['name'],
 			'label' => $args['label'],
@@ -127,12 +127,12 @@ class Wnd_form {
 		));
 	}
 
-	// Radio
-	function addRadio($args) {
+	// _radio
+	function add_radio($args) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => "radio",
 			'name' => $args['name'],
 			'placeholder' => $args['placeholder'],
@@ -145,12 +145,12 @@ class Wnd_form {
 		));
 	}
 
-	// Checkbox
-	function addCheckbox($args = array()) {
+	// _checkbox
+	function add_checkbox($args = array()) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => "checkbox",
 			"name" => $args['name'],
 			'label' => $args['label'],
@@ -168,7 +168,7 @@ class Wnd_form {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => "switch",
 			'name' => $args['name'],
 			'placeholder' => NULL,
@@ -184,7 +184,7 @@ class Wnd_form {
 
 	// TinyMCE textarea
 	function addTinyMCE($name, $placeholder, $label, $isPublic) {
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => "tinymce",
 			'name' => $args['name'],
 			'placeholder' => $args['placeholder'],
@@ -199,20 +199,20 @@ class Wnd_form {
 	}
 
 	// Submit
-	function addSubmitButton($label, $submitStyle) {
+	function add_submit_button($label, $submit_style) {
 		$this->submit = $label;
-		$this->submitStyle = $submitStyle;
+		$this->submit_style = $submit_style;
 	}
 
-	// Action
-	function addAction($method, $action) {
+	// _action
+	function add_action($method, $action) {
 		$this->method = $method;
 		$this->action = $action;
 	}
 
 	// Image upload
 	function addImageUpload($name, $label) {
-		array_push($this->inputValues, array(
+		array_push($this->input_values, array(
 			'type' => "image",
 			'name' => $args['name'],
 			'placeholder' => NULL,
@@ -232,15 +232,15 @@ class Wnd_form {
 	/**
 	 *@since 2019.03.06 在表单当前位置插入指定html代码以补充现有方法无法实现的效果
 	 */
-	function addHtml($html) {
-		array_push($this->inputValues, array(
+	function add_html($html) {
+		array_push($this->input_values, array(
 			'type' => 'html',
 			'value' => $html,
 		));
 	}
 
-	// Size (e.g. 'is-large', 'is-small')
-	function setSize($size) {
+	// _size (e.g. 'is-large', 'is-small')
+	function set_size($size) {
 		$this->size = $size;
 	}
 
@@ -249,13 +249,13 @@ class Wnd_form {
 	 *表单构造函数
 	 **/
 	function build() {
-		$this->buildFormHeader();
-		$this->buildInputValues();
-		$this->buildSubmitButton();
-		$this->buildFormFooter();
+		$this->build_form_header();
+		$this->build_input_values();
+		$this->build_submit_button();
+		$this->build_form_footer();
 	}
 
-	private function buildFormHeader() {
+	private function build_form_header() {
 		$html = '<form';
 		if (!is_null($this->method)) {
 			$html .= ' method="' . $this->method . '"';
@@ -267,30 +267,30 @@ class Wnd_form {
 			$html .= ' enctype="multipart/form-data"';
 		}
 
-		if ($this->formAttr) {
-			$html .= ' ' . $this->formAttr;
+		if ($this->form_attr) {
+			$html .= ' ' . $this->form_attr;
 		}
 		$html .= '>';
 		$this->html = $html;
 	}
 
-	private function buildInputValues() {
+	private function build_input_values() {
 		$html = '';
-		foreach ($this->inputValues as $inputValue) {
+		foreach ($this->input_values as $inputValue) {
 			switch ($inputValue['type']) {
 			case 'text':
 			case 'email':
 			case 'password':
-				$html .= $this->buildDefaultInput($inputValue);
+				$html .= $this->build_input($inputValue);
 				break;
 			case 'radio':
-				$html .= $this->buildRadio($inputValue);
+				$html .= $this->build_radio($inputValue);
 				break;
 			case 'checkbox':
-				$html .= $this->buildCheckbox($inputValue);
+				$html .= $this->build_checkbox($inputValue);
 				break;
 			case 'dropdown':
-				$html .= $this->buildDropdown($inputValue);
+				$html .= $this->build_dropdown($inputValue);
 				break;
 			case 'image':
 				$html .= $this->buildImage($inputValue);
@@ -299,13 +299,13 @@ class Wnd_form {
 				$html .= $this->buildTinyMCE($inputValue);
 				break;
 			case 'textarea':
-				$html .= $this->buildTextarea($inputValue);
+				$html .= $this->build_textarea($inputValue);
 				break;
 			case 'switch':
-				$html .= $this->buildSwitch($inputValue);
+				$html .= $this->build_switch($inputValue);
 				break;
 			case 'html':
-				$html .= $this->buildHtml($inputValue);
+				$html .= $this->build_html($inputValue);
 				break;
 			default:
 				break;
@@ -314,14 +314,14 @@ class Wnd_form {
 		$this->html .= $html;
 	}
 
-	private function buildDropdown($inputValue) {
+	private function build_dropdown($inputValue) {
 		$html = '<div class="field">';
 		if (!empty($inputValue['label'])) {
 			$html .= '<label class="label">' . $inputValue['label'] . '</label>';
 		}
 		$html .= '<div class="control">';
 		$html .= '<div class="select">';
-		$html .= '<select name="' . $inputValue['name'] . '" ' . $this->getRequired($inputValue) . ' >';
+		$html .= '<select name="' . $inputValue['name'] . '" ' . $this->get_required($inputValue) . ' >';
 		foreach ($inputValue['options'] as $key => $value) {
 			$checked = ($inputValue['checked'] == $value) ? ' selected="selected"' : '';
 			$html .= '<option value="' . $value . '"' . $checked . '>' . $key . '</option>';
@@ -333,13 +333,13 @@ class Wnd_form {
 		return $html;
 	}
 
-	private function buildRadio($inputValue) {
+	private function build_radio($inputValue) {
 
 		$html = '<div class="field">';
 		$html .= '<div class="control">';
 		foreach ($inputValue['value'] as $key => $value) {
 			$html .= '<label class="radio">';
-			$html .= '<input type="radio" name="' . $inputValue['name'] . '" value="' . $value . '" ' . $this->getRequired($inputValue);
+			$html .= '<input type="radio" name="' . $inputValue['name'] . '" value="' . $value . '" ' . $this->get_required($inputValue);
 			$html .= ($inputValue['checked'] == $value) ? ' checked="checked" >' : ' >';
 			$html .= ' ' . $key;
 			$html .= '</label>';
@@ -351,7 +351,7 @@ class Wnd_form {
 
 	}
 
-	private function buildDefaultInput($inputValue) {
+	private function build_input($inputValue) {
 		$html = '<div class="field">';
 		if (!empty($inputValue['label'])) {
 			$html .= '<label class="label">' . $inputValue['label'] . '</label>';
@@ -361,16 +361,16 @@ class Wnd_form {
 		if ($inputValue['has-icons']) {
 
 			$html .= '<div class="control has-icons-' . $inputValue['has-icons'] . '">';
-			$html .= '<input class="input ' . $this->getSize() . '" name="' . $inputValue['name'] . '" type="' . $inputValue['type'] . '" placeholder="' . $inputValue['placeholder']
-			. '" autofocus="" value="' . $this->getValue($inputValue) . '" ' . $this->getRequired($inputValue) . '>';
+			$html .= '<input class="input ' . $this->get_size() . '" name="' . $inputValue['name'] . '" type="' . $inputValue['type'] . '" placeholder="' . $inputValue['placeholder']
+			. '" autofocus="" value="' . $this->get_value($inputValue) . '" ' . $this->get_required($inputValue) . '>';
 			$html .= '<span class="icon is-small is-' . $inputValue['has-icons'] . '">' . $inputValue['icon'] . '</span>';
 			$html .= '</div>';
 
 		} else {
 
 			$html .= '<div class="control">';
-			$html .= '<input class="input ' . $this->getSize() . '" name="' . $inputValue['name'] . '" type="' . $inputValue['type'] . '" placeholder="' . $inputValue['placeholder']
-			. '" autofocus="" value="' . $this->getValue($inputValue) . '" ' . $this->getRequired($inputValue) . '>';
+			$html .= '<input class="input ' . $this->get_size() . '" name="' . $inputValue['name'] . '" type="' . $inputValue['type'] . '" placeholder="' . $inputValue['placeholder']
+			. '" autofocus="" value="' . $this->get_value($inputValue) . '" ' . $this->get_required($inputValue) . '>';
 			$html .= '</div>';
 		}
 
@@ -378,13 +378,13 @@ class Wnd_form {
 		return $html;
 	}
 
-	private function buildCheckbox($inputValue) {
+	private function build_checkbox($inputValue) {
 
 		$html = '<div class="field">';
 		$html .= '<div class="control">';
 		foreach ($inputValue['value'] as $key => $value) {
 			$html .= '<label class="checkbox">';
-			$html .= '<input type="checkbox" name="' . $inputValue['name'] . '[]" value="' . $value . '" ' . $this->getRequired($inputValue);
+			$html .= '<input type="checkbox" name="' . $inputValue['name'] . '[]" value="' . $value . '" ' . $this->get_required($inputValue);
 			$html .= ($inputValue['checked'] == $value) ? ' checked="checked" >' : ' >';
 			$html .= ' ' . $key;
 			$html .= '</label>&nbsp;&nbsp;';
@@ -411,11 +411,11 @@ class Wnd_form {
 		return $html;
 	}
 
-	private function buildHtml($inputValue) {
+	private function build_html($inputValue) {
 		return $inputValue['value'];
 	}
 
-	private function buildSwitch($inputValue) {
+	private function build_switch($inputValue) {
 		$html = '<div class="field">';
 		$checked = $inputValue['checked'] ? 'checked="checked"' : '';
 		$id = $inputValue['id'];
@@ -425,31 +425,31 @@ class Wnd_form {
 		return $html;
 	}
 
-	private function buildTextarea($inputValue) {
+	private function build_textarea($inputValue) {
 
 		$html = '<div class="field">';
 		if (!empty($inputValue['label'])) {
 			$html .= '<label class="label">' . $inputValue['label'] . '</label>';
 		}
-		$html .= '<textarea class="textarea" name="' . $inputValue['name'] . '" ' . $this->getRequired($inputValue) . ' placeholder="' . $inputValue['placeholder'] . '" ></textarea>';
+		$html .= '<textarea class="textarea" name="' . $inputValue['name'] . '" ' . $this->get_required($inputValue) . ' placeholder="' . $inputValue['placeholder'] . '" ></textarea>';
 		$html .= '</div>';
 		return $html;
 	}
 
-	private function buildSubmitButton() {
+	private function build_submit_button() {
 		if (is_null($this->submit)) {
 			$submit = Base::instance()->get('form.submit_label_default');
 		} else {
 			$submit = $this->submit;
 		}
-		$this->html .= '<button type="submit" value="upload" class="button ' . $this->submitStyle . ' ' . $this->getSize() . '">' . $submit . '</button>';
+		$this->html .= '<button type="submit" value="upload" class="button ' . $this->submit_style . ' ' . $this->get_size() . '">' . $submit . '</button>';
 	}
 
-	private function buildFormFooter() {
+	private function build_form_footer() {
 		$this->html .= '</form>';
 	}
 
-	private function getValue($inputValue) {
+	private function get_value($inputValue) {
 		$value = $inputValue['value'];
 		if (empty($value)) {
 			return '';
@@ -457,7 +457,7 @@ class Wnd_form {
 		return $value;
 	}
 
-	private function getRequired($inputValue) {
+	private function get_required($inputValue) {
 		$isRequired = $inputValue['required'];
 		if ($isRequired) {
 			return 'required="required"';
@@ -465,7 +465,7 @@ class Wnd_form {
 		return '';
 	}
 
-	private function getSize() {
+	private function get_size() {
 		$size = $this->size;
 		return $size;
 	}
@@ -473,7 +473,7 @@ class Wnd_form {
 	/**
 	 *@since 2019.03.06 给表头添加额自定义属性
 	 */
-	public function setFormAttr($formAttr) {
-		$this->formAttr = $formAttr;
+	public function set_form_attr($form_attr) {
+		$this->form_attr = $form_attr;
 	}
 }

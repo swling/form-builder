@@ -1,7 +1,7 @@
 # Dynamic Bulma form builder
 
 ```php
-require "class-form.php";
+require "class-wnd-form.php";
 
 $form = new Wnd_Form();
 

@@ -17,7 +17,7 @@ if(!empty($_POST)){
     print_r($_POST);
 }
 
-require "class-form.php";
+require "class-wnd-form.php";
 
 $form = new Wnd_Form();
 

@@ -1,13 +1,21 @@
 <?php
 
-echo "<!DOCTYPE html><link rel='stylesheet' href='//cdn.jsdelivr.net/npm/bulma@0.7.4/css/bulma.min.css' type='text/css' media='all' />";
-echo "<link rel='stylesheet' href='//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.7.2/css/all.min.css' type='text/css' media='all' />";
 echo "
+    <!DOCTYPE html>
     <head>
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/bulma@0.7.4/css/bulma.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.7.2/css/all.min.css' type='text/css' media='all' />
     <style>span.required{color:#F00} body{padding:50px;}</style>
     <title>PHP bulma Form builder Demo</title>
     </head>
-";
+    <body>
+    "
+;
+
+// 输出结果
+if(!empty($_POST)){
+    print_r($_POST);
+}
 
 require "class-form.php";
 
@@ -15,8 +23,9 @@ $form = new Wnd_form();
 
 // input
 $form->addText(
-	array('name' => 'user_name',
-		'value' => 'value',
+	array(
+		'name' => 'user_name',
+		'value' => '',
 		'placeholder' => 'user name',
 		'label' => 'User name<span class="required">*</span>',
 		'has-icons' => 'left', //icon position "left" orf "right"
@@ -27,24 +36,26 @@ $form->addText(
 
 // input
 $form->addEmail(
-	array('name' => 'email',
+	array(
+		'name' => 'email',
 		'value' => '',
 		'placeholder' => 'email',
-		'label' => '电子邮件',
+		'label' => 'Email <span class="required">*</span>',
 		'has-icons' => 'left',
-		'icon' => '<i class="fas fa-user"></i>',
+		'icon' => '<i class="fas fa-envelope"></i>',
 		'required' => false,
 	)
 );
 
 // password
 $form->addPassword(
-	array('name' => 'text',
-		'value' => '测试值2',
-		'label' => 'label2<span></span>',
+	array(
+		'name' => 'password',
+		'value' => '',
+		'label' => 'Password <span class="required">*</span>',
 		'placeholder' => 'password',
 		'has-icons' => 'left',
-		'icon' => '<i class="fas fa-key"></i>',
+		'icon' => '<i class="fas fa-unlock-alt"></i>',
 		'required' => false,
 	)
 );
@@ -56,10 +67,10 @@ $form->addHtml('<div class="field is-horizontal"><div class="field-body">');
 $form->addRadio(
 	array(
 		'name' => 'radio',
-		'value' => array('key' => 'value', '测试值3' => 'demo3'),
-		'label' => '性别',
+		'value' => array('key1' => 'value1', 'key2' => 'value2'),
+		'label' => 'SEX',
 		'required' => false,
-		'checked' => 'demo3', //default checked value
+		'checked' => 'woman', //default checked value
 	)
 );
 
@@ -69,9 +80,9 @@ $form->addHtml('</div></div>');
 $form->addDropdown(
 	array(
 		'name' => 'dropdown',
-		'options' => array('测试值3' => 'value1', '测试值2' => 'value2'),
-		'label' => 'label3',
-		'required' => 1,
+		'options' => array('select1' => 'value1', 'select2' => 'value2'),
+		'label' => 'Dropdown',
+		'required' => false,
 		'checked' => 'value2', //default checked value
 	)
 );
@@ -80,10 +91,9 @@ $form->addDropdown(
 $form->addCheckbox(
 	array(
 
-		'name' => 'aihao',
+		'name' => 'checkbox',
 		'value' => array('key1' => 'value1', 'key2' => 'value2', 'key3' => 'value3'),
 		'label' => 'checkbox',
-		'required' => 1,
 		'checked' => 'value3', //default checked value
 	)
 );
@@ -91,15 +101,20 @@ $form->addCheckbox(
 // textarea
 $form->addTextarea(
 	array(
-		'name' => 'dropdown',
-		'label' => 'label3',
-		'required' => 1,
+		'name' => 'content',
+		'label' => 'content',
+		'placeholder' => 'placeholder content',
+		'required' => true,
 	)
 );
 
 $form->addAction('POST', '');
+$form->setFormAttr('id="my-form-id"');
 $form->addSubmitButton('Submit', 'is-primary');
 
 $form->build();
 
 echo $form->html;
+
+echo '</body>';
+echo '</html>';

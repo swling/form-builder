@@ -5,9 +5,13 @@
  */
 class Wnd_form {
 
+	private $formAttr;
+
 	private $inputValues = array();
 
 	private $submit;
+
+	private $submitStyle;
 
 	private $action;
 
@@ -32,6 +36,11 @@ class Wnd_form {
 		'id' => NULL,
 
 	);
+
+	// 允许外部更改私有变量
+	function __set($var, $val) {
+		$this->$var = $val;
+	}
 
 	// Text
 	function addText($args = array()) {
@@ -190,9 +199,9 @@ class Wnd_form {
 	}
 
 	// Submit
-	function addSubmitButton($label, $additionalStyling) {
+	function addSubmitButton($label, $submitStyle) {
 		$this->submit = $label;
-		$this->additionalSubmitStyling = $additionalStyling;
+		$this->submitStyle = $submitStyle;
 	}
 
 	// Action
@@ -213,7 +222,6 @@ class Wnd_form {
 			'required' => NULL,
 			'options' => NULL,
 			'id' => NULL,
-			// 'is-public' => NULL,
 		));
 		if (!$this->upload) {
 			$this->upload = true;
@@ -257,6 +265,10 @@ class Wnd_form {
 		}
 		if ($this->upload) {
 			$html .= ' enctype="multipart/form-data"';
+		}
+
+		if ($this->formAttr) {
+			$html .= ' ' . $this->formAttr;
 		}
 		$html .= '>';
 		$this->html = $html;
@@ -311,8 +323,8 @@ class Wnd_form {
 		$html .= '<div class="select">';
 		$html .= '<select name="' . $inputValue['name'] . '" ' . $this->getRequired($inputValue) . ' >';
 		foreach ($inputValue['options'] as $key => $value) {
-			$checked = ($inputValue['checked'] == $value) ? 'selected="selected"' : '';
-			$html .= '<option value="' . $value . '"  ' . $checked . ' >' . $key . '</option>';
+			$checked = ($inputValue['checked'] == $value) ? ' selected="selected"' : '';
+			$html .= '<option value="' . $value . '"' . $checked . '>' . $key . '</option>';
 		}
 		$html .= '</select>';
 		$html .= '</div>';
@@ -327,7 +339,7 @@ class Wnd_form {
 		$html .= '<div class="control">';
 		foreach ($inputValue['value'] as $key => $value) {
 			$html .= '<label class="radio">';
-			$html .= '<input type="radio" name="' . $inputValue['name'] . '" ' . $this->getRequired($inputValue);
+			$html .= '<input type="radio" name="' . $inputValue['name'] . '" value="' . $value . '" ' . $this->getRequired($inputValue);
 			$html .= ($inputValue['checked'] == $value) ? ' checked="checked" >' : ' >';
 			$html .= ' ' . $key;
 			$html .= '</label>';
@@ -372,7 +384,7 @@ class Wnd_form {
 		$html .= '<div class="control">';
 		foreach ($inputValue['value'] as $key => $value) {
 			$html .= '<label class="checkbox">';
-			$html .= '<input type="checkbox" name="' . $inputValue['name'] . '" ' . $this->getRequired($inputValue);
+			$html .= '<input type="checkbox" name="' . $inputValue['name'] . '[]" value="' . $value . '" ' . $this->getRequired($inputValue);
 			$html .= ($inputValue['checked'] == $value) ? ' checked="checked" >' : ' >';
 			$html .= ' ' . $key;
 			$html .= '</label>&nbsp;&nbsp;';
@@ -419,7 +431,7 @@ class Wnd_form {
 		if (!empty($inputValue['label'])) {
 			$html .= '<label class="label">' . $inputValue['label'] . '</label>';
 		}
-		$html .= '<textarea class="textarea" name="' . $inputValue['name'] . '" ' . $this->getRequired($inputValue) . 'placeholder="' . $inputValue['placeholder'] . '" ></textarea>';
+		$html .= '<textarea class="textarea" name="' . $inputValue['name'] . '" ' . $this->getRequired($inputValue) . ' placeholder="' . $inputValue['placeholder'] . '" ></textarea>';
 		$html .= '</div>';
 		return $html;
 	}
@@ -430,7 +442,7 @@ class Wnd_form {
 		} else {
 			$submit = $this->submit;
 		}
-		$this->html .= '<br /><button type="submit" value="upload" class="button ' . $this->additionalSubmitStyling . ' ' . $this->getSize() . '">' . $submit . '</button>';
+		$this->html .= '<button type="submit" value="upload" class="button ' . $this->submitStyle . ' ' . $this->getSize() . '">' . $submit . '</button>';
 	}
 
 	private function buildFormFooter() {
@@ -456,5 +468,12 @@ class Wnd_form {
 	private function getSize() {
 		$size = $this->size;
 		return $size;
+	}
+
+	/**
+	 *@since 2019.03.06 给表头添加额自定义属性
+	 */
+	public function setFormAttr($formAttr) {
+		$this->formAttr = $formAttr;
 	}
 }

@@ -21,6 +21,8 @@ require "class-wnd-form.php";
 
 $form = new Wnd_Form();
 
+$form->add_html('<div class="field"><div class="ajax-msg"></div></div>');
+
 // input
 $form->add_text(
 	array(
@@ -28,7 +30,7 @@ $form->add_text(
 		'value' => '',
 		'placeholder' => 'user name',
 		'label' => 'User name<span class="required">*</span>',
-		'has-icons' => 'left', //icon position "left" orf "right"
+		'has_icons' => 'left', //icon position "left" orf "right"
 		'icon' => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
 		'autofocus' => 'autofocus',
 		'required' => true,
@@ -42,7 +44,7 @@ $form->add_email(
 		'value' => '',
 		'placeholder' => 'email',
 		'label' => 'Email <span class="required">*</span>',
-		'has-icons' => 'left',
+		'has_icons' => 'left',
 		'icon' => '<i class="fas fa-envelope"></i>',
 		'required' => false,
 	)
@@ -55,7 +57,7 @@ $form->add_password(
 		'value' => '',
 		'label' => 'Password <span class="required">*</span>',
 		'placeholder' => 'password',
-		'has-icons' => 'left',
+		'has_icons' => 'left',
 		'icon' => '<i class="fas fa-unlock-alt"></i>',
 		'required' => false,
 	)
@@ -106,13 +108,12 @@ $form->add_image_upload(
 		'name' => 'file', // file input field name
 		'label' => 'Image upload',
 		'thumbnail' => 'https://www.baidu.com/img/baidu_jgylogo3.gif', // default thumbnail image url, maybe replace this after ajax uploaded
-		'thumbnail-size' => array('width' => 100, 'height' => 100), //thumbnail image size
-		'file-id' => 10, //data-file-id on delete button，in some situation, you want delete the file
-		'hidden-input' => array( // some hidden input,maybe useful in ajax upload
+		'thumbnail_size' => array('width' => 100, 'height' => 100), //thumbnail image size
+		'file_id' => 10, //data-file-id on delete button，in some situation, you want delete the file
+		'hidden_input' => array( // some hidden input,maybe useful in ajax upload
 			'meta_key' => 'avatar',
-			'_wpnonce' => 'xxx',
-			'file_save_width' => '',
-			'file_save_width' => '',
+			'save_width' => '0',
+			'save_hight' => '0',
 		),
 	)
 );
@@ -123,9 +124,9 @@ $form->add_file_upload(
 		'id' => 'file-upload',
 		'name' => 'file', // file input field name
 		'label' => 'File upland',
-		'file-name' => 'file name',
-		'file-id' => 0, //data-file-id on delete button，in some situation, you want delete the file
-		'hidden-input' => array('meta_key' => 'file', '_wpnonce' => 'xxx'), // some hidden input,maybe useful in ajax upload
+		'file_name' => 'file name',
+		'file_id' => 0, //data-file-id on delete button，in some situation, you want delete the file
+		'hidden_input' => array('meta_key' => 'file'), // some hidden input,maybe useful in ajax upload
 	)
 );
 
@@ -146,6 +147,7 @@ $form->add_submit_button('Submit', 'is-primary');
 $form->build();
 
 echo $form->html;
+
 
 echo '</body>';
 echo '</html>';

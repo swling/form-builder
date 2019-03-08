@@ -3,10 +3,11 @@
 /**
  * Class for creating dynamic Bulma forms.
  *@since 2019.03
- *@link https://github.com/swling/form-builder
+ *Base on form-builder @link https://github.com/swling/form-builder
  *@link https://wndwp.com
  *contact: tangfou@gmail.com
  */
+
 class Wnd_Form {
 
 	private $form_attr;
@@ -35,7 +36,7 @@ class Wnd_Form {
 		'value' => 'value',
 		'required' => '',
 		'options' => NULL,
-		'has-icons' => NULL,
+		'has_icons' => NULL,
 		'icon' => '',
 		'autofocus' => '',
 		'id' => NULL,
@@ -60,7 +61,7 @@ class Wnd_Form {
 			'value' => $args['value'],
 			'required' => $args['required'],
 			'autofocus' => $args['autofocus'],
-			'has-icons' => $args['has-icons'],
+			'has_icons' => $args['has_icons'],
 			'icon' => $args['icon'],
 			'id' => NULL,
 		));
@@ -107,7 +108,7 @@ class Wnd_Form {
 			'value' => $args['value'],
 			'required' => $args['required'],
 			'autofocus' => $args['autofocus'],
-			'has-icons' => $args['has-icons'],
+			'has_icons' => $args['has_icons'],
 			'icon' => $args['icon'],
 			'id' => NULL,
 		));
@@ -126,7 +127,7 @@ class Wnd_Form {
 			'value' => $args['value'],
 			'required' => $args['required'],
 			'autofocus' => $args['autofocus'],
-			'has-icons' => $args['has-icons'],
+			'has_icons' => $args['has_icons'],
 			'icon' => $args['icon'],
 			'id' => NULL,
 		));
@@ -199,7 +200,7 @@ class Wnd_Form {
 			'required' => NULL,
 			'options' => NULL,
 			'id' => $args['id'],
-			// 'is-public' => NULL,
+			// 'is_public' => NULL,
 		));
 	}
 
@@ -215,7 +216,7 @@ class Wnd_Form {
 			'required' => NULL,
 			'options' => NULL,
 			'id' => NULL,
-			'is-public' => $args['isPublic'],
+			'is_public' => $args['isPublic'],
 		));
 	}
 
@@ -238,10 +239,10 @@ class Wnd_Form {
 			'name' => 'file',
 			'label' => 'Image upland',
 			'thumbnail' => '',
-			'thumbnail-size' => array('height' => '100', 'width' => '100'),
+			'thumbnail_size' => array('height' => '100', 'width' => '100'),
 			'required' => null,
-			'file-id' => 0,
-			'hidden-input' => array(),
+			'file_id' => 0,
+			'hidden_input' => array(),
 			'id' => 'image-upload-field',
 		);
 		$args = array_merge($defaults, $args);
@@ -251,10 +252,10 @@ class Wnd_Form {
 			'name' => $args['name'],
 			'label' => $args['label'],
 			'thumbnail' => $args['thumbnail'],
-			'thumbnail-size' => $args['thumbnail-size'],
+			'thumbnail_size' => $args['thumbnail_size'],
 			'required' => $args['required'],
-			'file-id' => $args['file-id'],
-			'hidden-input' => $args['hidden-input'],
+			'file_id' => $args['file_id'],
+			'hidden_input' => $args['hidden_input'],
 			'id' => $args['id'],
 		));
 		if (!$this->upload) {
@@ -269,9 +270,9 @@ class Wnd_Form {
 		$defaults = array(
 			'name' => 'file',
 			'label' => 'File upload',
-			'file-name' => 'file name',
-			'file-id' => 0,
-			'hidden-input' => array(),
+			'file_name' => 'file name',
+			'file_id' => 0,
+			'hidden_input' => array(),
 			'required' => null,
 			'id' => 'file-upload-field',
 		);
@@ -281,9 +282,9 @@ class Wnd_Form {
 			'type' => "file",
 			'name' => $args['name'],
 			'label' => $args['label'],
-			'file-name' => $args['file-name'],
-			'file-id' => $args['file-id'],
-			'hidden-input' => $args['hidden-input'],
+			'file_name' => $args['file_name'],
+			'file_id' => $args['file_id'],
+			'hidden_input' => $args['hidden_input'],
 			'required' => $args['required'],
 			'id' => $args['id'],
 		));
@@ -435,11 +436,11 @@ class Wnd_Form {
 		}
 
 		// input icon
-		if ($input_value['has-icons']) {
+		if ($input_value['has_icons']) {
 
-			$html .= '<div class="control has-icons-' . $input_value['has-icons'] . '">';
+			$html .= '<div class="control has-icons-' . $input_value['has_icons'] . '">';
 			$html .= '<input class="input ' . $this->get_size() . '" name="' . $input_value['name'] . '" type="' . $input_value['type'] . '" placeholder="' . $input_value['placeholder'] . '"' . $this->get_autofocus($input_value) . ' value="' . $this->get_value($input_value) . '"' . $this->get_required($input_value) . '>';
-			$html .= '<span class="icon ' . $this->get_size() . ' is-' . $input_value['has-icons'] . '">' . $input_value['icon'] . '</span>';
+			$html .= '<span class="icon ' . $this->get_size() . ' is-' . $input_value['has_icons'] . '">' . $input_value['icon'] . '</span>';
 			$html .= '</div>';
 
 		} else {
@@ -473,62 +474,70 @@ class Wnd_Form {
 
 	private function build_image_upload($input_value) {
 
-		$html = '<div ' . $this->get_id($input_value) . ' class="field">';
+		$html = '<div ' . $this->get_id($input_value) . ' class="field upload-field">';
+		$html .= '<div class="field"><div class="ajax-msg"></div></div>';
 
 		$html .= '<div class="field">';
-		$html .= '<a><img src="' . $input_value['thumbnail'] . '" height="' . $input_value['thumbnail-size']['height'] . '" width="' . $input_value['thumbnail-size']['height'] . '"></a>';
-		$html .= '<a class="delete" data-id="' . $input_value['id'] . '" data-file-id="' . $input_value['file-id'] . '"></a>';
+		$html .= '<a><img class="thumbnail" src="' . $input_value['thumbnail'] . '" height="' . $input_value['thumbnail_size']['height'] . '" width="' . $input_value['thumbnail_size']['height'] . '"></a>';
+		$html .= '<a class="delete" data-id="' . $input_value['id'] . '" data-file_id="' . $input_value['file_id'] . '"></a>';
 		$html .= '<div class="file">';
 		$html .= '<input type="file" class="file-input" name="' . $input_value['name'] . '[]' . '" accept="image/*" data-id="' . $input_value['id'] . '">';
 		$html .= '</div>';
 		$html .= '</div>';
-		$html .= '</div>';
 
-		foreach ($input_value['hidden-input'] as $key => $value) {
+		foreach ($input_value['hidden_input'] as $key => $value) {
 			$html .= '<input type="hidden" name="' . $key . '" value="' . $value . '">';
 		}
+		$html .= '<input type="hidden" name="is_image" value="1">';
+		$html .= '<input type="hidden" name="thumbnail" value="' . $input_value['thumbnail'] . '">';
+		$html .= '<input type="hidden" name="upload_nonce" value="">';
+		$html .= '<input type="hidden" name="delete_nonce" value="">';
 
 		$html .= '
 		<script type="text/javascript">
 		    window.onload = function () {
 		        var fileupload = document.querySelector("#' . $input_value['id'] . ' input[type=\'file\']");
-		        var image = document.querySelector("#' . $input_value['id'] . ' img");
+		        var image = document.querySelector("#' . $input_value['id'] . ' .thumbnail");
 		        image.onclick = function () {
 		            fileupload.click();
 		        };
 		    };
 		</script>';
 
+		$html .= '</div>';
 		return $html;
 	}
 
 	private function build_file_upload($input_value) {
 
-		$html = '<div ' . $this->get_id($input_value) . ' class="field">';
+		$html = '<div ' . $this->get_id($input_value) . ' class="field upload-field">';
+
+		$html .= '<div class="field"><div class="ajax-msg"></div></div>';
 		$html .= '<div class="columns is-mobile">';
 
 		$html .= '<div class="column">';
 		$html .= '<div class="file has-name is-fullwidth">';
 		$html .= '<label class="file-label">';
-		$html .= '<input type="file" class="file-input" name="' . $input_value['name'] . '[]' . '" data-id="' . $input_value['id'] . '" />';
+		$html .= '<input type="file" class="file-input" name="' . $input_value['name'] . '[]' . '" data-id="' . $input_value['id'] . '" >';
 		$html .= '<span class="file-cta">';
 		$html .= '<span class="file-icon"><i class="fa fa-upload"></i></span>';
 		$html .= '<span class="file-label">' . $input_value['label'] . '</span>';
 		$html .= '</span>';
-		$html .= '<span class="file-name">' . $input_value['file-name'] . '</span>';
+		$html .= '<span class="file-name">' . $input_value['file_name'] . '</span>';
 		$html .= '</label>';
 		$html .= '</div>';
 		$html .= '</div>';
 
 		$html .= '<div class="column is-narrow">';
-		$html .= '<a class="delete" data-id="' . $input_value['id'] . '" data-file-id="' . $input_value['file-id'] . '"></a>';
+		$html .= '<a class="delete" data-id="' . $input_value['id'] . '" data-file_id="' . $input_value['file_id'] . '"></a>';
+		$html .= '</div>';
 		$html .= '</div>';
 
-		$html .= '</div>';
-
-		foreach ($input_value['hidden-input'] as $key => $value) {
+		foreach ($input_value['hidden_input'] as $key => $value) {
 			$html .= '<input type="hidden" name="' . $key . '" value="' . $value . '">';
 		}
+		$html .= '<input type="hidden" name="upload_nonce" value="">';
+		$html .= '<input type="hidden" name="delete_nonce" value="">';
 
 		$html .= '</div>';
 		return $html;

@@ -585,7 +585,7 @@ class Wnd_Form {
 		if (empty($input_value['value'])) {
 			return '';
 		}
-		return $value;
+		return $input_value['value'];
 	}
 
 	private function get_required($input_value) {

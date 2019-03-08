@@ -2,6 +2,10 @@
 
 /**
  * Class for creating dynamic Bulma forms.
+ *@since 2019.03
+ *@link https://github.com/swling/form-builder
+ *@link https://wndwp.com
+ *contact: tangfou@gmail.com
  */
 class Wnd_Form {
 
@@ -272,7 +276,7 @@ class Wnd_Form {
 			'id' => 'file-upload-field',
 		);
 		$args = array_merge(Wnd_form::$defaults, $args);
-		
+
 		array_push($this->input_values, array(
 			'type' => "file",
 			'name' => $args['name'],

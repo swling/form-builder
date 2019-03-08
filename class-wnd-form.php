@@ -32,7 +32,8 @@ class Wnd_Form {
 		'required' => '',
 		'options' => NULL,
 		'has-icons' => NULL,
-		'icon' => '<i class="fas fa-user"></i>',
+		'icon' => '',
+		'autofocus' => '',
 		'id' => NULL,
 
 	);
@@ -54,8 +55,22 @@ class Wnd_Form {
 			'label' => $args['label'],
 			'value' => $args['value'],
 			'required' => $args['required'],
+			'autofocus' => $args['autofocus'],
 			'has-icons' => $args['has-icons'],
 			'icon' => $args['icon'],
+			'id' => NULL,
+		));
+	}
+
+	// _text
+	function add_hidden($args = array()) {
+
+		$args = array_merge(Wnd_form::$defaults, $args);
+
+		array_push($this->input_values, array(
+			'type' => 'hidden',
+			'name' => $args['name'],
+			'value' => $args['value'],
 			'id' => NULL,
 		));
 	}
@@ -87,6 +102,7 @@ class Wnd_Form {
 			'label' => $args['label'],
 			'value' => $args['value'],
 			'required' => $args['required'],
+			'autofocus' => $args['autofocus'],
 			'has-icons' => $args['has-icons'],
 			'icon' => $args['icon'],
 			'id' => NULL,
@@ -105,6 +121,7 @@ class Wnd_Form {
 			'label' => $args['label'],
 			'value' => $args['value'],
 			'required' => $args['required'],
+			'autofocus' => $args['autofocus'],
 			'has-icons' => $args['has-icons'],
 			'icon' => $args['icon'],
 			'id' => NULL,
@@ -161,10 +178,10 @@ class Wnd_Form {
 		));
 	}
 
-	// Switch (custom, see https://wikiki.github.io/form/switch/)
+	// _switch (custom, see https://wikiki.github.io/form/switch/)
 	// The id is related to how the switch should look like. For instance, you can pass 'switchThinColorInfo'
 	// in order to display a thin switch with info color. See documentation for details.
-	function addSwitch($args) {
+	function add_switch($args) {
 
 		$args = array_merge(Wnd_form::$defaults, $args);
 
@@ -211,17 +228,60 @@ class Wnd_Form {
 	}
 
 	// Image upload
-	function addImageUpload($name, $label) {
+	function add_image_upload($args) {
+
+		$defaults = array(
+			'name' => 'file',
+			'label' => 'Image upland',
+			'thumbnail' => '',
+			'thumbnail-size' => array('height' => '100', 'width' => '100'),
+			'required' => null,
+			'file-id' => 0,
+			'hidden-input' => array(),
+			'id' => 'image-upload-field',
+		);
+		$args = array_merge($defaults, $args);
+
 		array_push($this->input_values, array(
 			'type' => "image",
 			'name' => $args['name'],
-			'placeholder' => NULL,
 			'label' => $args['label'],
-			'checked' => NULL,
-			'value' => NULL,
-			'required' => NULL,
-			'options' => NULL,
-			'id' => NULL,
+			'thumbnail' => $args['thumbnail'],
+			'thumbnail-size' => $args['thumbnail-size'],
+			'required' => $args['required'],
+			'file-id' => $args['file-id'],
+			'hidden-input' => $args['hidden-input'],
+			'id' => $args['id'],
+		));
+		if (!$this->upload) {
+			$this->upload = true;
+		}
+
+	}
+
+	// Image upload
+	function add_file_upload($args) {
+
+		$defaults = array(
+			'name' => 'file',
+			'label' => 'File upload',
+			'file-name' => 'file name',
+			'file-id' => 0,
+			'hidden-input' => array(),
+			'required' => null,
+			'id' => 'file-upload-field',
+		);
+		$args = array_merge(Wnd_form::$defaults, $args);
+		
+		array_push($this->input_values, array(
+			'type' => "file",
+			'name' => $args['name'],
+			'label' => $args['label'],
+			'file-name' => $args['file-name'],
+			'file-id' => $args['file-id'],
+			'hidden-input' => $args['hidden-input'],
+			'required' => $args['required'],
+			'id' => $args['id'],
 		));
 		if (!$this->upload) {
 			$this->upload = true;
@@ -276,36 +336,42 @@ class Wnd_Form {
 
 	private function build_input_values() {
 		$html = '';
-		foreach ($this->input_values as $inputValue) {
-			switch ($inputValue['type']) {
+		foreach ($this->input_values as $input_value) {
+			switch ($input_value['type']) {
 			case 'text':
 			case 'email':
 			case 'password':
-				$html .= $this->build_input($inputValue);
+				$html .= $this->build_input($input_value);
+				break;
+			case 'hidden':
+				$html .= $this->build_hidden($input_value);
 				break;
 			case 'radio':
-				$html .= $this->build_radio($inputValue);
+				$html .= $this->build_radio($input_value);
 				break;
 			case 'checkbox':
-				$html .= $this->build_checkbox($inputValue);
+				$html .= $this->build_checkbox($input_value);
 				break;
 			case 'dropdown':
-				$html .= $this->build_dropdown($inputValue);
+				$html .= $this->build_dropdown($input_value);
 				break;
 			case 'image':
-				$html .= $this->buildImage($inputValue);
+				$html .= $this->build_image_upload($input_value);
+				break;
+			case 'file':
+				$html .= $this->build_file_upload($input_value);
 				break;
 			case 'tinymce':
-				$html .= $this->buildTinyMCE($inputValue);
+				$html .= $this->buildTinyMCE($input_value);
 				break;
 			case 'textarea':
-				$html .= $this->build_textarea($inputValue);
+				$html .= $this->build_textarea($input_value);
 				break;
 			case 'switch':
-				$html .= $this->build_switch($inputValue);
+				$html .= $this->build_switch($input_value);
 				break;
 			case 'html':
-				$html .= $this->build_html($inputValue);
+				$html .= $this->build_html($input_value);
 				break;
 			default:
 				break;
@@ -314,16 +380,16 @@ class Wnd_Form {
 		$this->html .= $html;
 	}
 
-	private function build_dropdown($inputValue) {
+	private function build_dropdown($input_value) {
 		$html = '<div class="field">';
-		if (!empty($inputValue['label'])) {
-			$html .= '<label class="label">' . $inputValue['label'] . '</label>';
+		if (!empty($input_value['label'])) {
+			$html .= '<label class="label">' . $input_value['label'] . '</label>';
 		}
 		$html .= '<div class="control">';
 		$html .= '<div class="select">';
-		$html .= '<select name="' . $inputValue['name'] . '" ' . $this->get_required($inputValue) . ' >';
-		foreach ($inputValue['options'] as $key => $value) {
-			$checked = ($inputValue['checked'] == $value) ? ' selected="selected"' : '';
+		$html .= '<select name="' . $input_value['name'] . '"' . $this->get_required($input_value) . ' >';
+		foreach ($input_value['options'] as $key => $value) {
+			$checked = ($input_value['checked'] == $value) ? ' selected="selected"' : '';
 			$html .= '<option value="' . $value . '"' . $checked . '>' . $key . '</option>';
 		}
 		$html .= '</select>';
@@ -333,14 +399,14 @@ class Wnd_Form {
 		return $html;
 	}
 
-	private function build_radio($inputValue) {
+	private function build_radio($input_value) {
 
 		$html = '<div class="field">';
 		$html .= '<div class="control">';
-		foreach ($inputValue['value'] as $key => $value) {
+		foreach ($input_value['value'] as $key => $value) {
 			$html .= '<label class="radio">';
-			$html .= '<input type="radio" name="' . $inputValue['name'] . '" value="' . $value . '" ' . $this->get_required($inputValue);
-			$html .= ($inputValue['checked'] == $value) ? ' checked="checked" >' : ' >';
+			$html .= '<input type="radio" name="' . $input_value['name'] . '" value="' . $value . '"' . $this->get_required($input_value);
+			$html .= ($input_value['checked'] == $value) ? ' checked="checked" >' : ' >';
 			$html .= ' ' . $key;
 			$html .= '</label>';
 		}unset($key, $value);
@@ -351,26 +417,32 @@ class Wnd_Form {
 
 	}
 
-	private function build_input($inputValue) {
+	private function build_hidden($input_value) {
+
+		$html = '<input name="' . $input_value['name'] . '" type="' . $input_value['type'] . '" value="' . $this->get_value($input_value) . '" >';
+
+		return $html;
+	}
+
+	private function build_input($input_value) {
 		$html = '<div class="field">';
-		if (!empty($inputValue['label'])) {
-			$html .= '<label class="label">' . $inputValue['label'] . '</label>';
+		if (!empty($input_value['label'])) {
+			$html .= '<label class="label">' . $input_value['label'] . '</label>';
 		}
 
 		// input icon
-		if ($inputValue['has-icons']) {
+		if ($input_value['has-icons']) {
 
-			$html .= '<div class="control has-icons-' . $inputValue['has-icons'] . '">';
-			$html .= '<input class="input ' . $this->get_size() . '" name="' . $inputValue['name'] . '" type="' . $inputValue['type'] . '" placeholder="' . $inputValue['placeholder']
-			. '" autofocus="" value="' . $this->get_value($inputValue) . '" ' . $this->get_required($inputValue) . '>';
-			$html .= '<span class="icon is-small is-' . $inputValue['has-icons'] . '">' . $inputValue['icon'] . '</span>';
+			$html .= '<div class="control has-icons-' . $input_value['has-icons'] . '">';
+			$html .= '<input class="input ' . $this->get_size() . '" name="' . $input_value['name'] . '" type="' . $input_value['type'] . '" placeholder="' . $input_value['placeholder'] . '"' . $this->get_autofocus($input_value) . ' value="' . $this->get_value($input_value) . '"' . $this->get_required($input_value) . '>';
+			$html .= '<span class="icon ' . $this->get_size() . ' is-' . $input_value['has-icons'] . '">' . $input_value['icon'] . '</span>';
 			$html .= '</div>';
 
 		} else {
 
 			$html .= '<div class="control">';
-			$html .= '<input class="input ' . $this->get_size() . '" name="' . $inputValue['name'] . '" type="' . $inputValue['type'] . '" placeholder="' . $inputValue['placeholder']
-			. '" autofocus="" value="' . $this->get_value($inputValue) . '" ' . $this->get_required($inputValue) . '>';
+			$html .= '<input class="input ' . $this->get_size() . '" name="' . $input_value['name'] . '" type="' . $input_value['type'] . '" placeholder="' . $input_value['placeholder']
+			. '"' . $this->get_autofocus($input_value) . ' value="' . $this->get_value($input_value) . '"' . $this->get_required($input_value) . '>';
 			$html .= '</div>';
 		}
 
@@ -378,14 +450,14 @@ class Wnd_Form {
 		return $html;
 	}
 
-	private function build_checkbox($inputValue) {
+	private function build_checkbox($input_value) {
 
 		$html = '<div class="field">';
 		$html .= '<div class="control">';
-		foreach ($inputValue['value'] as $key => $value) {
+		foreach ($input_value['value'] as $key => $value) {
 			$html .= '<label class="checkbox">';
-			$html .= '<input type="checkbox" name="' . $inputValue['name'] . '[]" value="' . $value . '" ' . $this->get_required($inputValue);
-			$html .= ($inputValue['checked'] == $value) ? ' checked="checked" >' : ' >';
+			$html .= '<input type="checkbox" name="' . $input_value['name'] . '[]" value="' . $value . '"' . $this->get_required($input_value);
+			$html .= ($input_value['checked'] == $value) ? ' checked="checked" >' : ' >';
 			$html .= ' ' . $key;
 			$html .= '</label>&nbsp;&nbsp;';
 		}unset($key, $value);
@@ -393,45 +465,92 @@ class Wnd_Form {
 		$html .= '</div>';
 
 		return $html;
-
 	}
 
-	private function buildImage($inputValue) {
-		$html .= '<div class="file" style="margin-bottom:10px;">';
+	private function build_image_upload($input_value) {
+
+		$html = '<div ' . $this->get_id($input_value) . ' class="field">';
+
+		$html .= '<div class="field">';
+		$html .= '<a><img src="' . $input_value['thumbnail'] . '" height="' . $input_value['thumbnail-size']['height'] . '" width="' . $input_value['thumbnail-size']['height'] . '"></a>';
+		$html .= '<a class="delete" data-id="' . $input_value['id'] . '" data-file-id="' . $input_value['file-id'] . '"></a>';
+		$html .= '<div class="file">';
+		$html .= '<input type="file" class="file-input" name="' . $input_value['name'] . '[]' . '" accept="image/*" data-id="' . $input_value['id'] . '">';
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
+
+		foreach ($input_value['hidden-input'] as $key => $value) {
+			$html .= '<input type="hidden" name="' . $key . '" value="' . $value . '">';
+		}
+
+		$html .= '
+		<script type="text/javascript">
+		    window.onload = function () {
+		        var fileupload = document.querySelector("#' . $input_value['id'] . ' input[type=\'file\']");
+		        var image = document.querySelector("#' . $input_value['id'] . ' img");
+		        image.onclick = function () {
+		            fileupload.click();
+		        };
+		    };
+		</script>';
+
+		return $html;
+	}
+
+	private function build_file_upload($input_value) {
+
+		$html = '<div ' . $this->get_id($input_value) . ' class="field">';
+		$html .= '<div class="columns is-mobile">';
+
+		$html .= '<div class="column">';
+		$html .= '<div class="file has-name is-fullwidth">';
 		$html .= '<label class="file-label">';
-		$html .= '<input class="file-input" type="file" name="' . $inputValue['name'] . '" accept="image/*"/>';
+		$html .= '<input type="file" class="file-input" name="' . $input_value['name'] . '[]' . '" data-id="' . $input_value['id'] . '" />';
 		$html .= '<span class="file-cta">';
-		$html .= '<span class="file-icon">';
-		$html .= '<i class="fas fa-cloud-upload-alt"></i>';
+		$html .= '<span class="file-icon"><i class="fa fa-upload"></i></span>';
+		$html .= '<span class="file-label">' . $input_value['label'] . '</span>';
 		$html .= '</span>';
-		$html .= '<span class="file-label">' . $inputValue['label'] . '</span>';
-		$html .= '</span>';
+		$html .= '<span class="file-name">' . $input_value['file-name'] . '</span>';
 		$html .= '</label>';
 		$html .= '</div>';
-		return $html;
-	}
+		$html .= '</div>';
 
-	private function build_html($inputValue) {
-		return $inputValue['value'];
-	}
+		$html .= '<div class="column is-narrow">';
+		$html .= '<a class="delete" data-id="' . $input_value['id'] . '" data-file-id="' . $input_value['file-id'] . '"></a>';
+		$html .= '</div>';
 
-	private function build_switch($inputValue) {
-		$html = '<div class="field">';
-		$checked = $inputValue['checked'] ? 'checked="checked"' : '';
-		$id = $inputValue['id'];
-		$html .= '<input id="' . $id . '" type="checkbox" name="' . $inputValue['name'] . '" class="switch" ' . $checked . '">';
-		$html .= '<label for="' . $id . '">' . $inputValue['label'] . '</label>';
+		$html .= '</div>';
+
+		foreach ($input_value['hidden-input'] as $key => $value) {
+			$html .= '<input type="hidden" name="' . $key . '" value="' . $value . '">';
+		}
+
 		$html .= '</div>';
 		return $html;
 	}
 
-	private function build_textarea($inputValue) {
+	private function build_html($input_value) {
+		return $input_value['value'];
+	}
+
+	private function build_switch($input_value) {
+		$html = '<div class="field">';
+		$checked = $input_value['checked'] ? 'checked="checked"' : '';
+		$id = $input_value['id'];
+		$html .= '<input id="' . $id . '" type="checkbox" name="' . $input_value['name'] . '" class="switch" ' . $checked . '">';
+		$html .= '<label for="' . $id . '">' . $input_value['label'] . '</label>';
+		$html .= '</div>';
+		return $html;
+	}
+
+	private function build_textarea($input_value) {
 
 		$html = '<div class="field">';
-		if (!empty($inputValue['label'])) {
-			$html .= '<label class="label">' . $inputValue['label'] . '</label>';
+		if (!empty($input_value['label'])) {
+			$html .= '<label class="label">' . $input_value['label'] . '</label>';
 		}
-		$html .= '<textarea class="textarea" name="' . $inputValue['name'] . '" ' . $this->get_required($inputValue) . ' placeholder="' . $inputValue['placeholder'] . '" ></textarea>';
+		$html .= '<textarea class="textarea" name="' . $input_value['name'] . '"' . $this->get_required($input_value) . ' placeholder="' . $input_value['placeholder'] . '" ></textarea>';
 		$html .= '</div>';
 		return $html;
 	}
@@ -449,18 +568,30 @@ class Wnd_Form {
 		$this->html .= '</form>';
 	}
 
-	private function get_value($inputValue) {
-		$value = $inputValue['value'];
-		if (empty($value)) {
+	private function get_value($input_value) {
+		if (empty($input_value['value'])) {
 			return '';
 		}
 		return $value;
 	}
 
-	private function get_required($inputValue) {
-		$isRequired = $inputValue['required'];
-		if ($isRequired) {
-			return 'required="required"';
+	private function get_required($input_value) {
+		if ($input_value['required']) {
+			return ' required="required"';
+		}
+		return '';
+	}
+
+	private function get_id($input_value) {
+		if ($input_value['id']) {
+			return ' id="' . $input_value['id'] . '"';
+		}
+		return '';
+	}
+
+	private function get_autofocus($input_value) {
+		if ($input_value['autofocus']) {
+			return ' autofocus="autofocus"';
 		}
 		return '';
 	}
@@ -475,5 +606,9 @@ class Wnd_Form {
 	 */
 	public function set_form_attr($form_attr) {
 		$this->form_attr = $form_attr;
+	}
+
+	public function the_form_data() {
+		print_r($this->input_values);
 	}
 }

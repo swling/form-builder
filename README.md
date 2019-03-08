@@ -1,6 +1,23 @@
 # Dynamic Bulma form builder
 
 ```php
+echo "
+    <!DOCTYPE html>
+    <head>
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/bulma@0.7.4/css/bulma.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.7.2/css/all.min.css' type='text/css' media='all' />
+    <style>span.required{color:#F00} body{padding:50px;}</style>
+    <title>PHP bulma Form builder Demo</title>
+    </head>
+    <body>
+    "
+;
+
+// 输出结果
+if (!empty($_POST)) {
+	print_r($_POST);
+}
+
 require "class-wnd-form.php";
 
 $form = new Wnd_Form();
@@ -14,6 +31,7 @@ $form->add_text(
 		'label' => 'User name<span class="required">*</span>',
 		'has-icons' => 'left', //icon position "left" orf "right"
 		'icon' => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
+		'autofocus' => 'autofocus',
 		'required' => true,
 	)
 );
@@ -82,6 +100,36 @@ $form->add_checkbox(
 	)
 );
 
+// upload image
+$form->add_image_upload(
+	array(
+		'id' => 'image-upload',
+		'name' => 'file', // file input field name
+		'label' => 'Image upload',
+		'thumbnail' => 'https://www.baidu.com/img/baidu_jgylogo3.gif', // default thumbnail image url, maybe replace this after ajax uploaded
+		'thumbnail-size' => array('width' => 100, 'height' => 100), //thumbnail image size
+		'file-id' => 10, //data-file-id on delete button，in some situation, you want delete the file
+		'hidden-input' => array( // some hidden input,maybe useful in ajax upload
+			'meta_key' => 'avatar',
+			'_wpnonce' => 'xxx',
+			'file_save_width' => '',
+			'file_save_width' => '',
+		),
+	)
+);
+
+// upload file
+$form->add_file_upload(
+	array(
+		'id' => 'file-upload',
+		'name' => 'file', // file input field name
+		'label' => 'File upland',
+		'file-name' => 'file name',
+		'file-id' => 0, //data-file-id on delete button，in some situation, you want delete the file
+		'hidden-input' => array('meta_key' => 'file', '_wpnonce' => 'xxx'), // some hidden input,maybe useful in ajax upload
+	)
+);
+
 // textarea
 $form->add_textarea(
 	array(
@@ -99,6 +147,9 @@ $form->add_submit_button('Submit', 'is-primary');
 $form->build();
 
 echo $form->html;
+
+echo '</body>';
+echo '</html>';
 ```
 
 [1]: https://bulma.io

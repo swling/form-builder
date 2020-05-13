@@ -1,153 +1,279 @@
 <?php
+use Wnd\View\Wnd_Form;
 
-echo "
-    <!DOCTYPE html>
-    <head>
-    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/bulma@0.7.4/css/bulma.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.7.2/css/all.min.css' type='text/css' media='all' />
-    <style>span.required{color:#F00} body{padding:50px;}</style>
-    <title>PHP bulma Form builder Demo</title>
-    </head>
-    <body>
-    "
-;
+/**
+ *仅仅输出表单字段
+ *@since 2019.04.28
+ */
+$form = new Wnd_Form;
+$form->add_text(
+	[
+		'addon_right' => '<button type="button" class="send-code button is-primary">获取验证码</button>',
+		'name'        => 'test',
+	]
+);
+echo $form->get_input_fields();
 
-// 输出结果
-if (!empty($_POST)) {
-	print_r($_POST);
-}
-
-require "class-wnd-form.php";
-
+/**
+ *字段数组数据输出与设置
+ *@since 2019.04.28
+ */
 $form = new Wnd_Form();
+$form->add_hidden('hidden_key', 'hidden_value');
+// 获取当前表单的组成数据数组（通常用于配合 filter 过滤）
+$form->get_input_values();
+// 直接设置表单的组成数组（通常用于配合 filter 过滤）
+// $form->set_input_values($input_values);
 
-$form->add_html('<div class="field"><div class="ajax-msg"></div></div>');
+/**
+ *常规表单生成
+ *@since 2019.03.10
+ */
+$form = new Wnd_Form();
+$form->add_form_attr('data-test', 'test-value');
+$form->set_form_title('标题');
 
 // input
 $form->add_text(
-	array(
-		'name' => 'user_name',
-		'value' => '',
+	[
+		'id'          => 'demo' . uniqid(),
+		'name'        => 'user_name',
+		'value'       => '',
 		'placeholder' => 'user name',
-		'label' => 'User name<span class="required">*</span>',
-		'has_icons' => 'left', //icon position "left" orf "right"
-		'icon' => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
-		'autofocus' => 'autofocus',
-		'required' => true,
-	)
+		'label'       => 'User name<span class="required">*</span> ',
+		'icon_right'  => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
+		'icon_left'   => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
+		'autofocus'   => 'autofocus',
+		'required'    => true,
+		'readonly'    => false,
+	]
+);
+
+/**
+ *@since 2020.04.20
+ *当前字段可复制追加（需要对应前端js支持）
+ *
+ */
+$form->add_text(
+	[
+		'addon_right' => '<button type="button" class="button add-row">+</button>',
+		'name'        => 'test[]',
+	]
+);
+
+// has addon and icon
+$form->add_text(
+	[
+		'icon_right'  => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
+		'icon_left'   => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
+		'addon_right' => '<button type="button" class="send-code button is-primary">获取验证码</button>',
+		'addon_left'  => '<button type="button" class="send-code button is-primary">获取验证码</button>',
+		'name'        => 'test',
+		// 'label' => 'Input with addons',
+		// 'disabled' => true,
+	]
+);
+
+// input
+$form->add_number(
+	[
+		'name'        => 'number',
+		'value'       => '',
+		'placeholder' => 'number',
+		'label'       => 'Number<span class="required">*</span> ',
+		'icon_left'   => '<i class="fas fa-user"></i>', // icon html @link https://fontawesome.com/
+		'autofocus'   => 'autofocus',
+		'required'    => true,
+	]
 );
 
 // input
 $form->add_email(
-	array(
-		'name' => 'email',
-		'value' => '',
+	[
+		'name'        => 'email',
+		'value'       => '',
 		'placeholder' => 'email',
-		'label' => 'Email <span class="required">*</span>',
-		'has_icons' => 'left',
-		'icon' => '<i class="fas fa-envelope"></i>',
-		'required' => false,
-	)
+		'label'       => 'Email <span class="required">*</span>',
+		'icon_left'   => '<i class="fas fa-envelope"></i>',
+		'required'    => false,
+	]
 );
 
 // password
 $form->add_password(
-	array(
-		'name' => 'password',
-		'value' => '',
-		'label' => 'Password <span class="required">*</span>',
+	[
+		'name'        => 'password',
+		'value'       => '',
+		'label'       => 'Password <span class="required">*</span>',
 		'placeholder' => 'password',
-		'has_icons' => 'left',
-		'icon' => '<i class="fas fa-unlock-alt"></i>',
+		'icon_left'   => '<i class="fas fa-unlock-alt"></i>',
+		'required'    => false,
+	]
+);
+
+// radio
+$form->add_radio(
+	[
+		'name'     => 'radio',
+		'options'  => ['key1' => 'value1', 'key2' => 'value2'],
+		'label'    => 'SEX',
 		'required' => false,
-	)
+		'checked'  => 'woman', //default checked value
+	]
 );
 
 // html
 $form->add_html('<div class="field is-horizontal"><div class="field-body">');
 
-// radio
-$form->add_Radio(
-	array(
-		'name' => 'radio',
-		'value' => array('key1' => 'value1', 'key2' => 'value2'),
-		'label' => 'SEX',
+// select
+$form->add_select(
+	[
+		'name'     => 'select',
+		'options'  => ['select1' => 'value1', 'select2' => 'value2'],
+		'label'    => 'Dropdown',
 		'required' => false,
-		'checked' => 'woman', //default checked value
-	)
-);
-
-$form->add_html('</div></div>');
-
-// dropdown
-$form->add_dropdown(
-	array(
-		'name' => 'dropdown',
-		'options' => array('select1' => 'value1', 'select2' => 'value2'),
-		'label' => 'Dropdown',
-		'required' => false,
-		'checked' => 'value2', //default checked value
-	)
+		'selected' => 'value2', //default selected value
+	]
 );
 
 // checkbox
 $form->add_checkbox(
-	array(
-
-		'name' => 'checkbox',
-		'value' => array('key1' => 'value1', 'key2' => 'value2', 'key3' => 'value3'),
-		'label' => 'checkbox',
-		'checked' => 'value3', //default checked value
-	)
+	[
+		'name'    => 'checkbox[]',
+		'options' => ['小' => '0.01', '中' => '10', '大' => '100'],
+		'label'   => 'checkbox',
+		'checked' => ['0.01', '100'], // checked
+	]
 );
+
+$form->add_html('</div></div>');
+
+/**
+ *@since 2019.04.08 bulma拓展样式
+ *https://wikiki.github.io/form/checkradio/
+ */
+$form->add_radio(
+	[
+		'name'     => 'total_amount',
+		'options'  => ['0.01' => '0.01', '10' => '10'],
+		'required' => 'required',
+		'checked'  => '0.01', //default checked value
+		'class'    => 'is-checkradio is-danger',
+	]
+);
+
+/**
+ *@since 2019.04.08 bulma拓展样式
+ *@link https://wikiki.github.io/form/switch/
+ */
+$form->add_checkbox(
+	[
+		'name'    => '_usermeta_auto_play',
+		'options' => ['首页自动播放' => '1'],
+		'checked' => wnd_get_user_meta(get_current_user_id(), 'auto_play') ? 1 : 0, //default checked
+		'id'      => 'auto_play',
+		'class'   => 'switch is-danger',
+	]
+);
+
+/**
+ * @since 2019.12.13
+ * 设置表单默认缩略图尺寸：非保存尺寸
+ * 该尺寸可被具体图片上传字段中：$args['thumbnail_size']参数覆盖
+ *
+ * 如果表单中不同图片上传需要设置不同的缩略图，则重复调用该方法即可覆盖之前的设定
+ */
+$form->set_thumbnail_size(100, 100);
 
 // upload image
 $form->add_image_upload(
-	array(
-		'id' => 'image-upload',
-		'name' => 'file', // file input field name
-		'label' => 'Image upload',
-		'thumbnail' => 'https://www.baidu.com/img/baidu_jgylogo3.gif', // default thumbnail image url, maybe replace this after ajax uploaded
-		'thumbnail_size' => array('width' => 100, 'height' => 100), //thumbnail image size
-		'file_id' => 10, //data-file-id on delete button，in some situation, you want delete the file
-		'hidden_input' => array( // some hidden input,maybe useful in ajax upload
-			'meta_key' => 'avatar',
-			'save_width' => '0',
-			'save_hight' => '0',
-		),
-	)
+	[
+		// 'id' => 'image-upload',
+		'name'           => 'file', // file input field name
+		'label'          => 'Image upload',
+		'thumbnail'      => 'https://www.baidu.com/img/baidu_jgylogo3.gif', // default thumbnail image url, maybe replace this after ajax uploaded
+		'thumbnail_size' => ['width' => 100, 'height' => 100], //thumbnail image size
+		'file_id'        => 10, //data-file-id on delete button，in some situation, you want delete the file
+		'data'           => [ // some data on file input, maybe useful in ajax upload
+			'meta_key'    => 'avatar',
+			'save_width'  => '0',
+			'save_height' => '0',
+		],
+		'delete_button'  => true,
+		'required'       => 'required',
+	]
 );
 
 // upload file
 $form->add_file_upload(
-	array(
-		'id' => 'file-upload',
-		'name' => 'file', // file input field name
-		'label' => 'File upland',
-		'file_name' => 'file name',
-		'file_id' => 0, //data-file-id on delete button，in some situation, you want delete the file
-		'hidden_input' => array('meta_key' => 'file'), // some hidden input,maybe useful in ajax upload
-	)
+	[
+		// 'id' => 'file-upload',
+		'name'          => 'file', // file input field name
+		'label'         => 'File upland',
+		'file_name'     => 'file name',
+		'file_id'       => 0, //data-file-id on delete button，in some situation, you want delete the file
+		'data'          => ['meta_key' => 'file'], // some data on file input, maybe useful in ajax upload
+		'delete_button' => true,
+		'required'      => 'required',
+	]
 );
 
 // textarea
 $form->add_textarea(
-	array(
-		'name' => 'content',
-		'label' => 'content',
+	[
+		'name'        => 'content',
+		'label'       => 'content',
 		'placeholder' => 'placeholder content',
-		'required' => true,
-	)
+		'required'    => true,
+	]
 );
 
-$form->add_action('POST', '');
-$form->set_form_attr('id="my-form-id"');
-$form->add_submit_button('Submit', 'is-primary');
+/**
+ *@since 2019.08.23
+ *新增HTML5 字段
+ **/
+$form->add_color(
+	[
+		'name'  => 'color',
+		'value' => '#990000',
+	]
+);
+
+$form->add_date(
+	[
+		'name' => 'date',
+		'min'  => '2019-08-23',
+		'max'  => '3019-08-31',
+	]
+);
+
+$form->add_range(
+	[
+		'name' => 'range',
+		'min'  => '0',
+		'max'  => '10',
+		'step' => '0.1',
+	]
+);
+
+$form->add_url(
+	[
+		'name' => 'url',
+	]
+);
+
+// 138-5200-1900
+$form->add_tel(
+	[
+		'name'    => 'tel',
+		'label'   => '格式：xxx-xxxx-xxxx',
+		'pattern' => '[0-9]{3}-[0-9]{4}-[0-9]{4}',
+	]
+);
+
+$form->set_action('post', 'https://www.baidu.com');
+$form->set_submit_button('Submit', 'is-primary');
 
 $form->build();
 
 echo $form->html;
-
-
-echo '</body>';
-echo '</html>';
